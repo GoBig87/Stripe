@@ -83,7 +83,7 @@ NavigationLayout:
 
         Image:
             id: 'fin_button'
-            source: 'Fin_font.png'
+            source: 'Stripe_logo.png'
             size_hint_y: .1
             valign: 'top'
             halign: 'center'
