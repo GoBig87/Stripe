@@ -21,7 +21,7 @@ class StripeRecipe(CythonRecipe):
         filename = '__init__.py'
         with open(os.path.join(build_dir, filename), 'wb'):
             pass
-        dist_dir  = join(self.ctx.dist_dir,'root','python','lib','python2.7','site-packages','stripe')
+        dist_dir  = join(self.ctx.dist_dir,'root','python2','lib','python2.7','site-packages','stripe')
         copy_tree(build_dir, dist_dir)
 
     def biglink(self):

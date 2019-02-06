@@ -25,25 +25,28 @@ class ChargeScreen(Screen):
     def layout(self):
         self.charge = False
         self.amount = ''
+        self.ready  = False
 
         def on_text_charge(instance, value):
-            self.port = True
-            self.util.port = value
             self.amount = value
+            if len(value) >= 1:
+                self.ready = True
+            else:
+                self.ready = False
             setButtonColor()
 
         layout = FloatLayout()
 
-        #Port
-        chargeBox = BoxLayout()
-        chargeField = MDTextField(password=True,size_hint_x=.9)
+        #Charge Box
+        #chargeBox = BoxLayout()
+        chargeField = MDTextField(size_hint_x=.9)
         chargeField.hint_text = "Enter Amount to Charge"
         chargeField.input_filter = "int"
         chargeField.bind(text=on_text_charge)
-        chargeBox.add_widget(chargeField)
+        #chargeBox.add_widget(chargeField)
 
-        chargeAnchor = AnchorLayout(anchor_x='center',anchor_y='top',padding=[100])
-        chargeAnchor.add_widget(chargeBox)
+        chargeAnchor = AnchorLayout(anchor_x='center',anchor_y='top',padding=[150])
+        chargeAnchor.add_widget(chargeField)
 
         proceedBox = BoxLayout()
         blankWidget1 = MDLabel(text='')
@@ -53,14 +56,14 @@ class ChargeScreen(Screen):
 
         app = App.get_running_app()
         def setButtonColor():
-            if all([self.value]):
+            if self.ready:
                 proceedButton.md_bg_color = app.theme_cls.primary_color
                 proceedButton.bind(on_press=lambda x: self.createCharge())
 
         proceedBox.add_widget(blankWidget1)
         proceedBox.add_widget(proceedButton)
         proceedBox.add_widget(blankWidget2)
-        proceedAnchor = AnchorLayout(anchor_x='center',anchor_y='center',padding=[60])
+        proceedAnchor = AnchorLayout(anchor_x='center',anchor_y='bottom',padding=[60])
         proceedAnchor.add_widget(proceedBox)
         # #Combine all together
         layout.add_widget(chargeAnchor)

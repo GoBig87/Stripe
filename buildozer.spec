@@ -43,7 +43,7 @@ version = 1.0.0
 # (list) Application requirements
 # comma seperated e.g. requirements = sqlite3,kivy,hostpython2,pycrypto,pil,kivy
 #IOS requirements
-requirements = hostpython,kivy,python,futures,requests,openssl,stripe,git+https://gitlab.com/kivymd/KivyMD.git
+requirements = hostpython2,kivy,python2,futures,requests,openssl,git+https://gitlab.com/kivymd/KivyMD.git
 #Andriod requirements
 #requirements = python2,kivy,hostpython2,futures,requests,git+https://gitlab.com/kivymd/KivyMD.git,pyjnius
 
@@ -52,12 +52,12 @@ requirements = hostpython,kivy,python,futures,requests,openssl,stripe,git+https:
 # requirements.source.kivy = ../../kivy
 
 # (list) Garden requirements
-garden_requirements = stripe
+#garden_requirements =
 # (str) Presplash of the application
-#presplash.filename = %(source.dir)s
+presplash.filename = %(source.dir)s/Stripe_Splash.png
 
 # (str) Icon of the application
-#icon.filename = %(source.dir)s
+icon.filename = %(source.dir)s/Stripe_Kivy_Icon.png
 
 # (str) Supported orientation (one of landscape, portrait or all)
 orientation = portrait
@@ -218,11 +218,10 @@ android.arch = armeabi-v7a
 
 # (str) Name of the certificate to use for signing the debug version
 # Get a list of available identities: buildozer ios list_identities
-ios.codesign.debug = "iPhone Distribution: Your name (Your code)"
+ios.codesign.debug = "iPhone Distribution: Jason Inbody (LQ6362H9B5)"
 
 # (str) Name of the certificate to use for signing the release version
-ios.codesign.release = "iPhone Distribution: Your name (Your code)"
-
+ios.codesign.release = "iPhone Distribution: Jason Inbody (LQ6362H9B5)"
 
 [buildozer]
 

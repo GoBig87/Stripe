@@ -60,7 +60,7 @@ class ConnectionScreen(Screen):
         #Combine fields
         combinedBox = BoxLayout(orientation='vertical',size_hint_y=.3)
         combinedBox.add_widget(addressBox)
-        combinedBox.add_widget(portField)
+        combinedBox.add_widget(portBox)
         networkAnchor = AnchorLayout(anchor_x='center',anchor_y='top',padding=[100])
         networkAnchor.add_widget(combinedBox)
 
@@ -72,7 +72,7 @@ class ConnectionScreen(Screen):
 
         app = App.get_running_app()
         def setButtonColor():
-            if all([self.email,self.password]):
+            if all([self.port,self.address]):
                 proceedButton.md_bg_color = app.theme_cls.primary_color
                 proceedButton.bind(on_press=lambda x: self.returnhome())
 

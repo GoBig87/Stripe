@@ -54,17 +54,17 @@ NavigationLayout:
             on_press: app.root.content.current = 'card'
             on_release: [[ 'menu' , lambda x:  app.root.nav_drawer.toggle()]]
         NavigationDrawerIconButton:
-            id: charge
-            icon: 'cash-usd'
-            text: "Create "
-            on_press: app.root.content.current = 'charge'
-            on_release: [[ 'menu' , lambda x: app.root.nav_drawer.toggle()]]  
-        NavigationDrawerIconButton:
             id: network
             icon: 'ethernet'
             text: "Setup Network"
             on_press: app.root.content.current = 'network'
             on_release: [[ 'menu' , lambda x:  app.root.nav_drawer.toggle()]]
+        NavigationDrawerIconButton:
+            id: charge
+            icon: 'cash-usd'
+            text: "Create Charge"
+            on_press: app.root.content.current = 'charge'
+            on_release: [[ 'menu' , lambda x: app.root.nav_drawer.toggle()]]  
         NavigationDrawerIconButton:
             id: exit
             icon: 'exit-to-app'
@@ -103,9 +103,9 @@ class MainBox(FloatLayout):
         self.toolbar = Builder.load_string(main_widget_kv)
 
         self.content = ScreenManager()
-        self.content.add_widget(CardScreen(name='card',self.util))
-        self.content.add_widget(ChargeScreen(name='charge',self.util))
-        self.content.add_widget(ConnectionScreen(name='network',self.util))
+        self.content.add_widget(CardScreen(name='card',util =self.util))
+        self.content.add_widget(ChargeScreen(name='charge',util =self.util))
+        self.content.add_widget(ConnectionScreen(name='network',util =self.util))
         self.screens.add_widget(self.content)
 
         self.add_widget(self.screens)
@@ -114,8 +114,8 @@ class MainBox(FloatLayout):
 
 class MainApp(App):
     theme_cls = ThemeManager()
-    theme_cls.primary_palette = 'Teal'
-    theme_cls.primary_hue = '300'
+    # theme_cls.primary_palette = 'Teal'
+    # theme_cls.primary_hue = '300'
     nav_drawer = ObjectProperty()
 
     def build(self):

@@ -85,18 +85,23 @@ class CardScreen(Screen):
 
         layout = FloatLayout()
 
+        #Empty box spacer
+        emptyBox = BoxLayout()
+        emptylabel = MDLabel()
+        emptyBox.add_widget(emptylabel)
+
         #Email Address
         emailBox = BoxLayout()
-        emailField = MDTextField(size_hint_x=.9)
+        emailField = MDTextField(size_hint_x=.8)
         emailField.hint_text = "Email Address"
         emailField.bind(text=on_text_email)
         emailBox.add_widget(emailField)
 
         #Credit Card Input
         cardNumberBox = BoxLayout()
-        blankWidget1  = MDLabel(text='',size_hint_x=.1)
-        blankWidget2  = MDLabel(text='',size_hint_x=.1)
-        self.creditCardField = MDTextField(size_hint_x=.8)
+        blankWidget1  = MDLabel(text='',size_hint_x=.05)
+        blankWidget2  = MDLabel(text='',size_hint_x=.05)
+        self.creditCardField = MDTextField(size_hint_x=.9)
         self.creditCardField.hint_text = "Credit Card Number"
         self.creditCardField.input_filter = 'int'
         self.creditCardField.max_text_length = 16
@@ -107,14 +112,14 @@ class CardScreen(Screen):
 
         #Exp date input
         expDateBox = BoxLayout()
-        blankWidget3 = MDLabel(text='',size_hint_x=.1)
-        blankWidget5 = MDLabel(text='',size_hint_x=.1)
-        self.expMonth = MDTextField(size_hint_x=.4) # This is the color used by the textfield
+        blankWidget3 = MDLabel(text='',size_hint_x=.05)
+        blankWidget5 = MDLabel(text='',size_hint_x=.05)
+        self.expMonth = MDTextField(size_hint_x=.45) # This is the color used by the textfield
         self.expMonth.hint_text = "Exp Month"
         self.expMonth.input_filter = 'int'
         self.expMonth.max_text_length = 2
         self.expMonth.bind(text=on_text_month)
-        self.expYear  = MDTextField(size_hint_x=.4)
+        self.expYear  = MDTextField(size_hint_x=.45)
         self.expYear.hint_text = "Exp Year"
         self.expYear.input_filter = 'int'
         self.expYear.max_text_length = 4
@@ -127,20 +132,21 @@ class CardScreen(Screen):
 
         #CVC
         cvcBox = BoxLayout()
-        blankWidget7 = MDLabel(text='',size_hint_x=.1)
+        blankWidget7 = MDLabel(text='',size_hint_x=.05)
         self.cvcTextField = MDTextField(size_hint_x=.4)
         self.cvcTextField.hint_text   = "CVC"
         self.cvcTextField.helper_text = "3 digit number on back of card"
         self.cvcTextField.helper_text_mode = "on_focus"
         self.cvcTextField.input_filter = "int"
         self.cvcTextField.bind(text=on_text_cvc)
-        blankWidget8 = MDLabel(text='',size_hint_x=.5)
+        blankWidget8 = MDLabel(text='',size_hint_x=.55)
         cvcBox.add_widget(blankWidget7)
         cvcBox.add_widget(self.cvcTextField)
         cvcBox.add_widget(blankWidget8)
 
         #Combined Boxes into
         combinedBox = BoxLayout(orientation='vertical',size_hint_y=.5)
+        combinedBox.add_widget(emptyBox)
         combinedBox.add_widget(emailBox)
         combinedBox.add_widget(cardNumberBox)
         combinedBox.add_widget(expDateBox)
