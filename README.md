@@ -54,5 +54,16 @@ An implementation of Stripe payment processing designed for Kivy-ios and python-
           <Your client function to send token to your server here>
 
     
-
-          
+## How to use in your server:  
+    In order to fully implement stripe you will need a server that will store user information in a database
+    along with their token.  All charges must be created from your server.
+  
+  ### Install the Stripe pyton package with pip and import
+    import stripe
+    #Then add your api key
+    _stripe_api_key = "your key here"
+    stripe.api_key = _stripe_api_key
+  
+  ### Charge customer
+  stripe.Charge.create(amount=amountCharged, currency='usd', description='Add info here', customer=customerToken, capture=False)
+  
