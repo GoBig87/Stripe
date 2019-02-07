@@ -32,7 +32,7 @@ class CardScreen(Screen):
         if platform in ["ios","android"]:
             self.stripe = Stripe.StripeToken()
             self.stripeUtil = Stripe.StripeUtil()
-            self.stripeUtil.stripekey = _key
+            self.stripeUtil.stripekey = 'your test key'
 
     def layout(self):
         self.paymentDict = {}
@@ -231,7 +231,7 @@ class CardScreen(Screen):
                 self.event.cancel()
             else:
                 #Send the stripe token to your server and wait for your rsp
-                status = self.stripe.sendToken(self.util,self.stripeUtil.token,self.util.email)
+                status = self.util.sendTokenToServer(self.stripeUtil.token,self.util.email)
                 if status == True:
                     self.stripepopup.content = MDLabel(text="Created user \nsuccesfully")
                     time.sleep(1)

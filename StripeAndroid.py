@@ -45,6 +45,3 @@ class StripeToken():
         token_cb = PythonTokenCallback(util)
         stripe.createToken(card,token_cb)
 
-    def sendToken(self,util,token,email):
-        return util.sendTokenToServer(token,email)
-

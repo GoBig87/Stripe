@@ -1,8 +1,7 @@
 from twisted.application import internet, service
 from twisted.internet.protocol import ServerFactory, Protocol
 from twisted.python import log
-import ast
-import os
+import json
 import stripe
 
 _stripe_api_key = "your key here"
@@ -46,7 +45,7 @@ class NodeService(service.Service):
         self.clientDict = None
         log.msg(data)
         try:
-            self.clientDict = ast.literal_eval(data)
+            self.clientDict = json.loads(data)
         except:
             pass
 

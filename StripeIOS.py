@@ -12,8 +12,6 @@ class StripeToken():
     def genToken(self,util,cardNum,expMon,expYear,cvc):
         getToken(util,util.stripekey, cardNum, expMon, expYear, cvc)
 
-    def sendToken(self,util,token,email):
-        return util.sendTokenToServer(token,email)
 
 
 
