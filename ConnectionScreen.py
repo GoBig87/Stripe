@@ -9,6 +9,7 @@ from kivymd.textfields import MDTextField
 from kivymd.button import MDRaisedButton
 from kivymd.label import MDLabel
 from kivy.app import App
+from kivy.metrics import dp
 
 #base python
 import socket
@@ -39,35 +40,25 @@ class ConnectionScreen(Screen):
             self.util.port = value
             setButtonColor()
 
-        layout = FloatLayout()
+        layout = BoxLayout(
+                        orientation= 'vertical',
+                        padding= (2*dp(48),2*dp(48))
+                        )
 
         #IP address
-        addressBox = BoxLayout()
-        addressField = MDTextField(size_hint_x=.9)
+        addressField = MDTextField()
         addressField.hint_text = "IP Address"
         addressField.bind(text=on_text_address)
-        addressBox.add_widget(addressField)
+        layout.add_widget(addressField)
 
         #Port
-        portBox = BoxLayout()
-        portField = MDTextField(password=True,size_hint_x=.9)
+        portField = MDTextField(password=True)
         portField.hint_text = "Port"
         portField.input_filter = "int"
         portField.bind(text=on_text_port)
-        portBox.add_widget(portField)
+        layout.add_widget(portField)
 
-
-        #Combine fields
-        combinedBox = BoxLayout(orientation='vertical',size_hint_y=.3)
-        combinedBox.add_widget(addressBox)
-        combinedBox.add_widget(portBox)
-        networkAnchor = AnchorLayout(anchor_x='center',anchor_y='top',padding=[100])
-        networkAnchor.add_widget(combinedBox)
-
-        proceedBox = BoxLayout()
-        blankWidget13 = MDLabel(text='')
-        proceedButton = MDRaisedButton(text='Proceed')
-        blankWidget14 = MDLabel(text='')
+        proceedButton = MDRaisedButton(text='Proceed',size_hint=(None, None),size= (4*dp(48),dp(48)))
         proceedButton.md_bg_color = [0.9, 0, 0, 0.9]
 
         app = App.get_running_app()
@@ -76,13 +67,9 @@ class ConnectionScreen(Screen):
                 proceedButton.md_bg_color = app.theme_cls.primary_color
                 proceedButton.bind(on_press=lambda x: self.returnhome())
 
-        proceedBox.add_widget(blankWidget13)
-        proceedBox.add_widget(proceedButton)
-        proceedBox.add_widget(blankWidget14)
         proceedAnchor = AnchorLayout(anchor_x='center',anchor_y='center',padding=[60])
-        proceedAnchor.add_widget(proceedBox)
+        proceedAnchor.add_widget(proceedButton)
         # #Combine all together
-        layout.add_widget(networkAnchor)
         layout.add_widget(proceedAnchor)
 
         return layout

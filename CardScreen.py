@@ -12,9 +12,31 @@ from kivy.app import App
 from kivy.atlas import Atlas
 from kivymd import images_path
 from kivy.utils import platform
+from kivy.app import App
+from kivy.atlas import Atlas
+from kivymd import images_path
+from kivy.metrics import dp
+from kivy.lang import Builder
+from kivy.atlas import Atlas
+from kivymd import images_path
+from kivy.uix.popup import Popup
+
 #python base modules
 import time
 #My modules
+
+spinner = ''' 
+#:import MDSpinner kivymd.spinner.MDSpinner
+
+AnchorLayout:
+    anchor_x: 'center'
+    anchor_y: 'center'
+    MDSpinner:
+        id: spinner                    
+        size_hint: None, None
+        size: dp(46), dp(46)
+
+'''
 
 if platform == 'android':
     import StripeAndroid as Stripe
@@ -35,21 +57,12 @@ class CardScreen(Screen):
             self.stripeUtil.stripekey = 'your test key'
 
     def layout(self):
+
         self.paymentDict = {}
         self.card  = False
         self.year  = False
         self.month = False
         self.cvc   = False
-
-        def on_text_email(instance, value):
-            var1 = str(value).find('.') +2
-            var2 = len(str(value))
-            if (str(value).find('.')+2 < len(value)) and (len(value) > 4) and (str(value).find('@')>0):
-                self.email = True
-                self.util.email = value
-            else:
-                self.email = False
-            setButtonColor()
 
         def on_text_card(instance, value):
             if len(value) == 16:
@@ -83,99 +96,75 @@ class CardScreen(Screen):
                 self.cvc = False
             setButtonColor()
 
-        layout = FloatLayout()
-
-        #Empty box spacer
-        emptyBox = BoxLayout()
-        emptylabel = MDLabel()
-        emptyBox.add_widget(emptylabel)
-
-        #Email Address
-        emailBox = BoxLayout()
-        emailField = MDTextField(size_hint_x=.8)
-        emailField.hint_text = "Email Address"
-        emailField.bind(text=on_text_email)
-        emailBox.add_widget(emailField)
-
+        layout = BoxLayout(
+                        orientation= 'vertical',
+                        padding= (2*dp(48),2*dp(48))
+                        )
         #Credit Card Input
-        cardNumberBox = BoxLayout()
-        blankWidget1  = MDLabel(text='',size_hint_x=.05)
-        blankWidget2  = MDLabel(text='',size_hint_x=.05)
-        self.creditCardField = MDTextField(size_hint_x=.9)
+        self.creditCardField = MDTextField()
         self.creditCardField.hint_text = "Credit Card Number"
         self.creditCardField.input_filter = 'int'
         self.creditCardField.max_text_length = 16
         self.creditCardField.bind(text=on_text_card)
-        cardNumberBox.add_widget(blankWidget1)
-        cardNumberBox.add_widget(self.creditCardField)
-        cardNumberBox.add_widget(blankWidget2)
+        layout.add_widget(self.creditCardField)
 
         #Exp date input
-        expDateBox = BoxLayout()
-        blankWidget3 = MDLabel(text='',size_hint_x=.05)
-        blankWidget5 = MDLabel(text='',size_hint_x=.05)
-        self.expMonth = MDTextField(size_hint_x=.45) # This is the color used by the textfield
+        dateBox = BoxLayout()
+        self.expMonth = MDTextField() # This is the color used by the textfield
         self.expMonth.hint_text = "Exp Month"
         self.expMonth.input_filter = 'int'
         self.expMonth.max_text_length = 2
         self.expMonth.bind(text=on_text_month)
-        self.expYear  = MDTextField(size_hint_x=.45)
+        self.expYear  = MDTextField()
         self.expYear.hint_text = "Exp Year"
         self.expYear.input_filter = 'int'
         self.expYear.max_text_length = 4
         self.expYear.bind(text=on_text_year)
-
-        expDateBox.add_widget(blankWidget3)
-        expDateBox.add_widget(self.expMonth)
-        expDateBox.add_widget(self.expYear)
-        expDateBox.add_widget(blankWidget5)
-
+        dateBox.add_widget(self.expMonth)
+        dateBox.add_widget(self.expYear)
+        layout.add_widget(dateBox)
         #CVC
         cvcBox = BoxLayout()
-        blankWidget7 = MDLabel(text='',size_hint_x=.05)
-        self.cvcTextField = MDTextField(size_hint_x=.4)
+        self.cvcTextField = MDTextField()
         self.cvcTextField.hint_text   = "CVC"
         self.cvcTextField.helper_text = "3 digit number on back of card"
         self.cvcTextField.helper_text_mode = "on_focus"
         self.cvcTextField.input_filter = "int"
         self.cvcTextField.bind(text=on_text_cvc)
-        blankWidget8 = MDLabel(text='',size_hint_x=.55)
-        cvcBox.add_widget(blankWidget7)
+        blankWidget8 = MDLabel(text='')
         cvcBox.add_widget(self.cvcTextField)
         cvcBox.add_widget(blankWidget8)
+        layout.add_widget(cvcBox)
 
         #Combined Boxes into
-        combinedBox = BoxLayout(orientation='vertical',size_hint_y=.5)
-        combinedBox.add_widget(emptyBox)
-        combinedBox.add_widget(emailBox)
-        combinedBox.add_widget(cardNumberBox)
-        combinedBox.add_widget(expDateBox)
-        combinedBox.add_widget(cvcBox)
-        paymentAnchor = AnchorLayout(anchor_x='center',anchor_y='top',padding=[100])
-        paymentAnchor.add_widget(combinedBox)
-
-        proceedBox = BoxLayout()
-        blankWidget13 = MDLabel(text='')
-        proceedButton = MDRaisedButton(text='Proceed')
+        proceedButton = MDRaisedButton(text='Enter Credit Card',size_hint=(None, None),size= (4*dp(48),dp(48)))
         proceedButton.md_bg_color = [0.9, 0, 0, 0.9]
-
+        #proceedButton.bind(on_press=lambda x: self.processInformation(paymentDict))
         self.app = App.get_running_app()
+
         def setButtonColor():
-            if all([self.email,self.card,self.year,self.month,self.cvc]):
+            if all([self.card,self.year,self.month,self.cvc]):
                 proceedButton.md_bg_color = self.app.theme_cls.primary_color
+                proceedButton.text = 'Proceed'
                 proceedButton.bind(on_press=lambda x: self.processInformation())
             else:
                 proceedButton.unbind
 
-        blankWidget14 = MDLabel(text='')
-        proceedBox.add_widget(blankWidget13)
-        proceedBox.add_widget(proceedButton)
-        proceedBox.add_widget(blankWidget14)
-        proceedAnchor = AnchorLayout(anchor_x='center',anchor_y='center',padding=[60])
-        proceedAnchor.add_widget(proceedBox)
+        #proceedButton.bind(on_press=lambda x: self.processInformation(paymentDict))
+        proceedAnchor = AnchorLayout(anchor_x='center',anchor_y='bottom')
+        proceedAnchor.add_widget(proceedButton)
         # #Combine all together
-        layout.add_widget(paymentAnchor)
         layout.add_widget(proceedAnchor)
+        #layout.add_widget(self.NavDrawer)
+
+        content = Builder.load_string(spinner)
+        self.authenPopup = Popup(title='Authenticating Card', title_align='center',
+                size_hint=(None, None), size=(dp(200), dp(200)))
+        self.authenPopup.add_widget(content)
+        self.authenPopup.title_font = 'data/fonts/Roboto-Bold.ttf'
+        self.authenPopup.title_color = App.get_running_app().theme_cls.primary_color
+        self.authenPopup.separator_color = App.get_running_app().theme_cls.primary_color
+        self.authenPopup.background = str(Atlas('{}round_shadow.atlas'.format(images_path)))
 
         return layout
 
@@ -191,15 +180,7 @@ class CardScreen(Screen):
         self.cvcTextField.text = ''
 
         #Create pop up for process delay
-        stripelabel = MDLabel(text='Authenticating', halign='center', valign='center')
-        stripelabel.color = App.get_running_app().theme_cls.primary_color
-        stripelabel.font_style = 'Body2'
-        self.stripepopup = Popup(title='',
-                                 content=stripelabel,
-                                 size_hint=(None, None), size=(400, 400))
-        self.stripepopup.separator_color = App.get_running_app().theme_cls.primary_color
-        self.stripepopup.background = str(Atlas('{}round_shadow.atlas'.format(images_path)))
-        self.stripepopup.open()
+        self.authenPopup.open()
 
         if platform in ["ios", "android"]:
             #THIS IS WHERE STRIP STARTS

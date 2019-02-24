@@ -11,9 +11,26 @@ from kivymd.label import MDLabel
 from kivy.app import App
 from kivy.atlas import Atlas
 from kivymd import images_path
-
+from kivy.metrics import dp
+from kivy.lang import Builder
+from kivy.atlas import Atlas
+from kivymd import images_path
+from kivy.uix.popup import Popup
 #base python
 import time
+
+spinner = ''' 
+#:import MDSpinner kivymd.spinner.MDSpinner
+
+AnchorLayout:
+    anchor_x: 'center'
+    anchor_y: 'center'
+    MDSpinner:
+        id: spinner                    
+        size_hint: None, None
+        size: dp(46), dp(46)
+
+'''
 
 class ChargeScreen(Screen):
     def __init__(self,**kwargs):
@@ -35,23 +52,21 @@ class ChargeScreen(Screen):
                 self.ready = False
             setButtonColor()
 
-        layout = FloatLayout()
+        layout = BoxLayout(
+                        orientation= 'vertical',
+                        padding= (2*dp(48),2*dp(48))
+                        )
 
         #Charge Box
-        #chargeBox = BoxLayout()
-        chargeField = MDTextField(size_hint_x=.9)
+        chargeField = MDTextField()
         chargeField.hint_text = "Enter Amount to Charge"
         chargeField.input_filter = "int"
         chargeField.bind(text=on_text_charge)
-        #chargeBox.add_widget(chargeField)
 
         chargeAnchor = AnchorLayout(anchor_x='center',anchor_y='top',padding=[150])
         chargeAnchor.add_widget(chargeField)
 
-        proceedBox = BoxLayout()
-        blankWidget1 = MDLabel(text='')
-        proceedButton = MDRaisedButton(text='Proceed')
-        blankWidget2 = MDLabel(text='')
+        proceedButton = MDRaisedButton(text='Proceed',size_hint=(None, None),size= (4*dp(48),dp(48)))
         proceedButton.md_bg_color = [0.9, 0, 0, 0.9]
 
         app = App.get_running_app()
@@ -60,28 +75,24 @@ class ChargeScreen(Screen):
                 proceedButton.md_bg_color = app.theme_cls.primary_color
                 proceedButton.bind(on_press=lambda x: self.createCharge())
 
-        proceedBox.add_widget(blankWidget1)
-        proceedBox.add_widget(proceedButton)
-        proceedBox.add_widget(blankWidget2)
         proceedAnchor = AnchorLayout(anchor_x='center',anchor_y='bottom',padding=[60])
-        proceedAnchor.add_widget(proceedBox)
+        proceedAnchor.add_widget(proceedButton)
         # #Combine all together
         layout.add_widget(chargeAnchor)
         layout.add_widget(proceedAnchor)
 
+        content = Builder.load_string(spinner)
+        self.stripepopup = Popup(title='Charging Card', title_align='center',
+                size_hint=(None, None), size=(dp(200), dp(200)))
+        self.stripepopup.add_widget(content)
+        self.stripepopup.title_font = 'data/fonts/Roboto-Bold.ttf'
+        self.stripepopup.title_color = App.get_running_app().theme_cls.primary_color
+        self.stripepopup.separator_color = App.get_running_app().theme_cls.primary_color
+        self.stripepopup.background = str(Atlas('{}round_shadow.atlas'.format(images_path)))
+
         return layout
 
     def createCharge(self):
-        #Create pop up for charge
-        stripelabel = MDLabel(text='Creating Charge', halign='center', valign='center')
-        stripelabel.color = App.get_running_app().theme_cls.primary_color
-        stripelabel.font_style = 'Body2'
-        self.stripepopup = Popup(title='',
-                                 content=stripelabel,
-                                 size_hint=(None, None), size=(400, 400))
-        self.stripepopup.separator_color = App.get_running_app().theme_cls.primary_color
-        self.stripepopup.background = str(Atlas('{}round_shadow.atlas'.format(images_path)))
-        self.stripepopup.open()
         time.sleep(1)
         msg = {}
         msg['function'] = 'Create_Charge'
@@ -89,10 +100,10 @@ class ChargeScreen(Screen):
         msg['amount'] = self.amount
         rsp = self.util.ConnectToServer(msg)
         if rsp['rsp'] == 'succeeded':
-            self.stripepopup.content = MDLabel(text="Charged\n Succeded")
+            self.stripepopup.title = "Charged Succeded"
             time.sleep(1)
             self.stripepopup.dismiss()
         else:
-            self.stripepopup.content = MDLabel(text="Charge \n Failed")
+            self.stripepopup.title = "Charge  Failed"
             time.sleep(1)
             self.stripepopup.dismiss()
