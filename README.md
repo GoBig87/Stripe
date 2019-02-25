@@ -25,34 +25,15 @@ An implementation of Stripe payment processing designed for Kivy-ios and python-
         Demo server will require python modules twisted and stripe and can be installed via pip.
   
 ## How to use in your app:  
-### Import Stripe
-    #Set imports depending on platform
-    if platform == 'android':
-        import StripeAndroid as Stripe
-    if platform == 'ios':
-        import StripeIOS as Stripe
-
-### Create objects and set stripe key
-    #Create StripeToken and StripeUtil objects.  Then set your stripe api key
-    if platform in ["ios","android"]:
-        self.stripe = Stripe.StripeToken()
-        self.stripeUtil = Stripe.StripeUtil()
-        self.stripeUtil.stripekey = 'your token from stripe here'
- ### Collect user credit card information and generate stripe token
-     #Use the genToken method of the StripeToken object to generate a stripe token
-     self.stripe.genToken(self.stripeUtil, cardNum, expMonth, expYear, cvc)
-     
- ### Send Token to your server     
-     #Once your token has been generated send it to your server along with the user name or email
-     #associated with the account.  Before sending the token its a good idea to check for errors.
-     
-      if 'invalid' in self.stripeUtil.token:
-        #Error token response "Your card's number is invalid"
-      else:
-          #Use the sendToken method of the StripeToken object to send the token to your server
-          #in order to do this you will need to create a utitlity class to send the token to your server
-          <Your client function to send token to your server here>
-
+### Create Payment Screen and generate token
+    from stripe.StripeMD import StripeMD
+    .
+    .
+    #Then Create a StripeMD instance
+    #util needs an object with class variable user and a method sendTokenToServer(token,object.user)
+    #This method will send your token to your server to be stored in your database with your token and user tied together
+    CreditCardLayout = StripeMD(util=<your server instance>,key=_key)
+    layout.add_widget(CreditCardLayout)
     
 ## How to use in your server:  
     In order to fully implement stripe you will need a server that will store user information in a database
