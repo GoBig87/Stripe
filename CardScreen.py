@@ -2,7 +2,7 @@
 from kivy.uix.screenmanager import Screen
 from stripe.StripeMD import StripeMD
 
-_key = 'pk_test_6pRNASCoBOKtIshFeQd4XMUh'
+_key = 'your_stripe_key_here'
 
 class CardScreen(Screen):
     def __init__(self,**kwargs):
