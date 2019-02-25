@@ -54,10 +54,10 @@ requirements = hostpython2,kivy,python2,futures,requests,openssl,git+https://git
 # (list) Garden requirements
 #garden_requirements =
 # (str) Presplash of the application
-presplash.filename = %(source.dir)s/Stripe_Splash.png
+presplash.filename = %(source.dir)s/stripe_imgs/Stripe_Splash.png
 
 # (str) Icon of the application
-icon.filename = %(source.dir)s/Stripe_Kivy_Icon.png
+icon.filename = %(source.dir)s/stripe_imgs/Stripe_Kivy_Icon.png
 
 # (str) Supported orientation (one of landscape, portrait or all)
 orientation = portrait

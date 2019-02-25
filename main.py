@@ -82,12 +82,14 @@ NavigationLayout:
             left_action_items: [[ 'menu' , lambda x: root.toggle_nav_drawer()]]
 
         Image:
-            id: 'fin_button'
-            source: 'Stripe_logo.png'
-            size_hint_y: .1
-            valign: 'top'
+            id: 'stripe'
+            source: 'stripe_imgs/Stripe_logo.png'
+            allow_stretch: True
+            keep_ratio: True
+            valign: 'center'
             halign: 'center'
-
+            size_hint: None,None
+            size: 2*dp(60),root.theme_cls.standard_increment
 
     '''
 

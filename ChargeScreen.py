@@ -1,13 +1,10 @@
 #Kivy
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.anchorlayout import AnchorLayout
 from kivy.uix.screenmanager import Screen
-from kivy.uix.popup import Popup
 from kivymd.textfields import MDTextField
 from kivymd.button import MDRaisedButton
-from kivymd.label import MDLabel
 from kivy.app import App
 from kivy.atlas import Atlas
 from kivymd import images_path
@@ -62,9 +59,7 @@ class ChargeScreen(Screen):
         chargeField.hint_text = "Enter Amount to Charge"
         chargeField.input_filter = "int"
         chargeField.bind(text=on_text_charge)
-
-        chargeAnchor = AnchorLayout(anchor_x='center',anchor_y='top',padding=[150])
-        chargeAnchor.add_widget(chargeField)
+        layout.add_widget(chargeField)
 
         proceedButton = MDRaisedButton(text='Proceed',size_hint=(None, None),size= (4*dp(48),dp(48)))
         proceedButton.md_bg_color = [0.9, 0, 0, 0.9]
@@ -77,8 +72,6 @@ class ChargeScreen(Screen):
 
         proceedAnchor = AnchorLayout(anchor_x='center',anchor_y='bottom',padding=[60])
         proceedAnchor.add_widget(proceedButton)
-        # #Combine all together
-        layout.add_widget(chargeAnchor)
         layout.add_widget(proceedAnchor)
 
         content = Builder.load_string(spinner)
@@ -93,6 +86,7 @@ class ChargeScreen(Screen):
         return layout
 
     def createCharge(self):
+        self.stripepopup.open()
         time.sleep(1)
         msg = {}
         msg['function'] = 'Create_Charge'
