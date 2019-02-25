@@ -5,7 +5,7 @@ class Utility():
     def __init__(self):
         self.address = ''
         self.socket = ''
-        self.email  = ''
+        self.user  = ''
 
     def sendTokenToServer(self,token,email):
         #This method is where you format on how you want

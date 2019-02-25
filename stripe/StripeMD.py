@@ -200,7 +200,7 @@ class StripeMD(BoxLayout):
                 self.event.cancel()
             else:
                 #Send the stripe token to your server and wait for your rsp
-                status = self.util.sendTokenToServer(self.stripeUtil.token,self.util.email)
+                status = self.util.sendTokenToServer(self.stripeUtil.token,self.util.user)
                 if status == True:
                     self.authenPopup.content ="Created user succesfully"
                     time.sleep(1)
