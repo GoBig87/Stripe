@@ -16,8 +16,8 @@ An implementation of Stripe payment processing designed for Kivy-ios and python-
         android.sdk = 24
   ###   IOS
         IOS apps will need to use the stripe recipe for Kivy-ios that can be located in the Kivy-ios directory of this 
-        project. The kivy stripe recipee also requires a patch for the host_setuptools recipee.  Move these two recipees into
-        .buildozer/ios/platform/kivy-ios/recipees. Add stripe to your requirements in your buildozer spec file or build 
+        project. The kivy stripe recipee also requires a patch for the host_setuptools recipee.  Move these two recipees 
+        into .buildozer/ios/platform/kivy-ios/recipees. Add stripe to your requirements in your buildozer spec file or build 
         them with ./toolchain.py.  Once your recipees have been compiled, open up xcode and click file->add files to project
         and select Stripe.Framework found in this repository under kivy-ios and click "copy files if needed".  Then click 
         add files to project again and add Stripe.bundle and make sure "copy files if needed" is checked again.
