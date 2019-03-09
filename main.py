@@ -29,6 +29,7 @@ from kivymd.label import MDLabel
 from CardScreen import CardScreen
 from ChargeScreen import ChargeScreen
 from ConnectionScreen import ConnectionScreen
+from UserScreen import UserScreen
 
 import utility
 
@@ -48,16 +49,22 @@ NavigationLayout:
         NavigationDrawerToolbar:
             title: "Welcome!"
         NavigationDrawerIconButton:
-            id: card
-            icon: 'credit-card'
-            text: "Credit Card"
-            on_press: app.root.content.current = 'card'
+            id: user
+            icon: 'account-settings'
+            text: "Set User"
+            on_press: app.root.content.current = 'user'
             on_release: [[ 'menu' , lambda x:  app.root.nav_drawer.toggle()]]
         NavigationDrawerIconButton:
             id: network
             icon: 'ethernet'
             text: "Setup Network"
             on_press: app.root.content.current = 'network'
+            on_release: [[ 'menu' , lambda x:  app.root.nav_drawer.toggle()]]
+        NavigationDrawerIconButton:
+            id: card
+            icon: 'credit-card'
+            text: "Credit Card"
+            on_press: app.root.content.current = 'card'
             on_release: [[ 'menu' , lambda x:  app.root.nav_drawer.toggle()]]
         NavigationDrawerIconButton:
             id: charge
@@ -105,6 +112,7 @@ class MainBox(FloatLayout):
         self.toolbar = Builder.load_string(main_widget_kv)
 
         self.content = ScreenManager()
+        self.content.add_widget(UserScreen(name='user',util =self.util))
         self.content.add_widget(CardScreen(name='card',util =self.util))
         self.content.add_widget(ChargeScreen(name='charge',util =self.util))
         self.content.add_widget(ConnectionScreen(name='network',util =self.util))

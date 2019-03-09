@@ -6,6 +6,7 @@ class Utility():
         self.address = ''
         self.socket = ''
         self.user  = ''
+        self.screenchange = 'charge'
 
     def sendTokenToServer(self,token,email):
         #This method is where you format on how you want

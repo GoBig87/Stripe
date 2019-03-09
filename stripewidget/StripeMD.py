@@ -139,15 +139,13 @@ class StripeMD(BoxLayout):
             else:
                 proceedButton.unbind
 
-        # proceedButton.bind(on_press=lambda x: self.processInformation(paymentDict))
         proceedAnchor = AnchorLayout(anchor_x='center', anchor_y='bottom')
         proceedAnchor.add_widget(proceedButton)
         # #Combine all together
         layout.add_widget(proceedAnchor)
-        # layout.add_widget(self.NavDrawer)
 
         content = Builder.load_string(spinner)
-        self.authenPopup = Popup(title='Authenticating Card', title_align='center',
+        self.authenPopup = Popup(title='Authorizing...', title_align='center',
                                  size_hint=(None, None), size=(dp(200), dp(200)))
         self.authenPopup.add_widget(content)
         self.authenPopup.title_font = 'data/fonts/Roboto-Bold.ttf'
@@ -156,6 +154,7 @@ class StripeMD(BoxLayout):
         self.authenPopup.background = str(Atlas('{}round_shadow.atlas'.format(images_path)))
 
         return layout
+
     def processInformation(self):
         self.card  = False
         self.year  = False
@@ -206,6 +205,7 @@ class StripeMD(BoxLayout):
                     time.sleep(1)
                     self.authenPopup.dismiss()
                     self.event.cancel()
+                    self.changeScreen()
                 else:
                     self.authenPopup.content = "Authenticating Failed"
                     time.sleep(1)
@@ -219,3 +219,8 @@ class StripeMD(BoxLayout):
         self.experationYear.text = ''
         self.cardNumber.text = ''
         self.Name.text = ''
+
+
+    def changeScreen(self):
+        if self.util.screenchange:
+            self.manager.current = self.util.screenchange
