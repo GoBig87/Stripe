@@ -26,7 +26,7 @@ An implementation of Stripe payment processing designed for Kivy-ios and python-
   
 ## How to use in your app:  
 ### Create Payment Screen and generate token
-    from stripe.StripeMD import StripeMD
+    from stripewidget.StripeMD import StripeMD
     .
     .
     #Then Create a StripeMD instance
