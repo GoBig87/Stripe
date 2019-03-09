@@ -1,6 +1,6 @@
 #Kivy
 from kivy.uix.screenmanager import Screen
-from stripe.StripeMD import StripeMD
+from stripewidget.StripeMD import StripeMD
 
 _key = 'your_stripe_key_here'
 

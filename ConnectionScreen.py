@@ -37,7 +37,10 @@ class ConnectionScreen(Screen):
 
         def on_text_port(instance, value):
             self.port = True
-            self.util.port = value
+            try:
+                self.util.port = int(value)
+            except:
+                self.port = False
             setButtonColor()
 
         layout = BoxLayout(
@@ -52,7 +55,7 @@ class ConnectionScreen(Screen):
         layout.add_widget(addressField)
 
         #Port
-        portField = MDTextField(password=True)
+        portField = MDTextField()
         portField.hint_text = "Port"
         portField.input_filter = "int"
         portField.bind(text=on_text_port)
@@ -65,7 +68,7 @@ class ConnectionScreen(Screen):
         def setButtonColor():
             if all([self.port,self.address]):
                 proceedButton.md_bg_color = app.theme_cls.primary_color
-                proceedButton.bind(on_press=lambda x: self.returnhome())
+                proceedButton.bind(on_press=lambda x: self.changeScreen())
 
         proceedAnchor = AnchorLayout(anchor_x='center',anchor_y='center',padding=[60])
         proceedAnchor.add_widget(proceedButton)
@@ -74,7 +77,7 @@ class ConnectionScreen(Screen):
 
         return layout
 
-    def returnHome(self):
+    def changeScreen(self):
         self.manager.current = 'card'
 
 
