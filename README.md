@@ -1,3 +1,30 @@
+This can still be done this way but its MUCH easier to user the CURL/API commands from stripe -> https://api.stripe.com/v1/token use this url to obtain your token and then you wont need to do any of this.  This is a snippet of my code I switched to.  It uses Kivy's UrlRequest which is asynchronous.
+  
+  class MyAPI:
+    def __init__(self):
+        self.base_stripe_url = 'https://api.stripe.com/'
+        self.create_stripe_token = 'v1/tokens'
+        
+    def post_stripe_token(self, callback, number, exp_month, exp_year, cvc):
+        data = {
+            'card[number]': str(number),
+            'card[exp_month]': str(exp_month),
+            'card[exp_year]': str(exp_year),
+            'card[cvc]': str(cvc)
+        }
+        url_data = urllib.parse.urlencode(data)
+        base_64_key = b64encode(_stipe_key.encode("utf-8")).decode("utf-8")
+        header = {'Content-type': 'application/x-www-form-urlencoded',
+                  'Authorization': 'Basic {}'.format(base_64_key)}
+        url = self.base_stripe_url + self.create_stripe_token
+        self._handle_post_req(callback, url=url, header=header, data=url_data)
+        
+    def _handle_post_req(self, callback, url, header=None, data=None):
+        self.util.logger.info("URL:%s DATA:%s HEADER:%s" % (url, data, header))
+        UrlRequest(url, method='POST', req_headers=header, req_body=data,
+                   on_success=callback, on_error=callback,
+                   on_failure=callback, ca_file=certifi.where())
+
 # Stripe
 An implementation of Stripe payment processing designed for Kivy-ios and python-4-android
 
